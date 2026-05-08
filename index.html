@@ -192,43 +192,78 @@
 
     // --- SÜPER KORUMA SİSTEMİ ---
 
-    // 1. Sağ tık engelleme (Yedek önlem)
-    document.addEventListener('contextmenu', event => event.preventDefault());
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    // 2. Klavye Kısayolları Engeli
+<script>
+    // Mesaj fonksiyonu
+    function sahmaranUyari(mesaj, baslik = "HOP!") {
+        Swal.fire({
+            title: baslik,
+            text: mesaj,
+            icon: 'error',
+            background: '#0d0d0d',
+            color: '#ff0000',
+            confirmButtonColor: '#8b0000',
+            confirmButtonText: 'Tamam abi, özür dilerim'
+        });
+    }
+
+    // 1. Sağ Tık Engeli ve Mesajı
+    document.addEventListener('contextmenu', event => {
+        event.preventDefault();
+        sahmaranUyari("Sağ tıkla kod çalmaya çalışmak mı? Sahmaran seni izliyor...", "YEMEZLER!");
+    });
+
+    // 2. Klavye Kısayolları Engeli ve Mesajları
     document.onkeydown = function(e) {
-        // F12 engeli
-        if(e.keyCode == 123) return false;
-        // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C engeli
-        if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) return false;
-        // Ctrl+U (Kaynak Kodu) engeli
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-        // Ctrl+S (Kaydet) engeli
-        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
-        // Ctrl+A (Hepsini seç) engeli (Textarea dışında)
-        if(e.ctrlKey && e.keyCode == 'A'.charCodeAt(0) && e.target.tagName !== 'TEXTAREA') return false;
+        // F12
+        if(e.keyCode == 123) {
+            sahmaranUyari("F12'ye basınca hacker mı oldun şimdi?", "DUR PEZEWENG!");
+            return false;
+        }
+        // Ctrl+U (Kaynak Kodu)
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+            sahmaranUyari("Kodlarımızı mı merak ettin? Çok zorlama, kafan karışır.", "KAYNAK KAPALI!");
+            return false;
+        }
+        // Ctrl+Shift+I / J / C (İncele)
+        if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) {
+            sahmaranUyari("Geliştirici araçlarını kapat dostum, burada sana ekmek çıkmaz.", "GİRİŞ YASAK!");
+            return false;
+        }
+        // Ctrl+S (Kaydet)
+        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) {
+            sahmaranUyari("Sayfayı kaydedip ne yapacaksın? Çerçeveletip asacak mısın?", "KOLEKSİYONCU MUYUZ?");
+            return false;
+        }
     };
 
-    // 3. Debugger Loop (F12 açılırsa tarayıcıyı kilitler)
+    // 3. Debugger Tespit Edilirse (Konsol açılırsa)
+    let debugCount = 0;
     setInterval(function() {
-        checkDebugger();
-    }, 100);
-
-    function checkDebugger() {
         const start = new Date();
         debugger;
         const end = new Date();
         if (end - start > 100) {
-            document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top:20%;'>GÜVENLİK İHLALİ TESPİT EDİLDİ!</h1>";
+            debugCount++;
+            if(debugCount === 1) {
+                sahmaranUyari("Konsolu açtığını gördüm. Kapatmazsan sayfa kendini imha edecek!", "DİKKAT!");
+            }
         }
-    }
+    }, 2000);
 
-    // 4. Console Temizleme (Hata mesajlarını görmemeleri için)
-    setInterval(() => {
-        console.clear();
-        console.log("%cDUR!", "color: red; font-size: 50px; font-weight: bold;");
-        console.log("%cBu alan kod hırsızlığına karşı korunmaktadır.", "color: gray; font-size: 20px;");
-    }, 1000);
+    // 4. Yazı Seçme Engeli (Textarea hariç)
+    document.addEventListener('selectstart', (e) => {
+        if (e.target.tagName !== 'TEXTAREA') {
+            // Buraya alert koymuyorum çünkü çok sıkıcı olur, sadece engelliyoruz.
+            e.preventDefault();
+        }
+    });
+
+    // 5. Konsola "Hava Atan" Mesajlar
+    console.log("%cDUR BURADA!", "color: red; font-size: 40px; font-weight: bold; text-shadow: 2px 2px black;");
+    console.log("%cSahmaran Combo Editor'ın mutfağına hoş geldin ama sadece bakabilirsin, dokunamazsın.", "color: white; font-size: 15px;");
+    console.log("%cTelegram: https://t.me/TheKingOfTheGlory001", "color: #0088cc; font-size: 12px; font-style: italic;");
 
     // 5. Görselleri Sürüklemeyi Engelleme
     document.querySelectorAll('img').forEach(img => {
