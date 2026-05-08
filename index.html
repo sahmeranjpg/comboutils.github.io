@@ -5,22 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sahmaran | Combo Düzenleyici</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --bg-color: #080808;
-            --sidebar-bg: #111111;
+            --bg-color: #050505;
+            --sidebar-bg: #0d0d0d;
             --accent-red: #8b0000; 
             --accent-red-bright: #ff0000;
             --text-light: #e0e0e0;
-            --text-dim: #a0a0a0;
-            --border-color: #2a2a2a;
+            --text-dim: #777;
+            --border-color: #1a1a1a;
             --telegram-blue: #0088cc;
+            --terminal-green: #00ff41;
         }
 
-        * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
 
         body {
             height: 100vh;
@@ -39,51 +40,53 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 15px;
+            padding: 0 20px;
             border-bottom: 2px solid var(--accent-red);
-            box-shadow: 0 4px 20px rgba(139, 0, 0, 0.3);
+            box-shadow: 0 4px 20px rgba(139, 0, 0, 0.4);
             z-index: 100;
         }
 
-        .logo-container { display: flex; align-items: center; gap: 10px; }
-        .main-logo { width: 35px; height: 35px; object-fit: contain; }
-        .logo-text { font-weight: 800; font-size: 18px; letter-spacing: -0.5px; color: #fff; text-transform: uppercase; }
+        .logo-container { display: flex; align-items: center; gap: 12px; }
+        .main-logo { width: 40px; height: 40px; object-fit: contain; filter: drop-shadow(0 0 5px var(--accent-red)); }
+        .logo-text { font-weight: 800; font-size: 20px; letter-spacing: -0.5px; text-transform: uppercase; }
         .logo-text span { color: var(--accent-red-bright); }
 
         .telegram-link {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             background: rgba(0, 136, 204, 0.1);
             color: var(--telegram-blue);
             text-decoration: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 11px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 12px;
             font-weight: 800;
             border: 1px solid var(--telegram-blue);
             transition: 0.3s;
+            letter-spacing: 1px;
         }
 
-        .telegram-link:hover { background: var(--telegram-blue); color: #fff; }
-
-        /* --- ANA TAYŞICI --- */
-        .main-container { 
-            display: flex; 
-            flex: 1; 
-            overflow: hidden; 
-            flex-direction: row; /* Masaüstü varsayılan */
+        .telegram-link:hover { 
+            background: var(--telegram-blue); 
+            color: #fff; 
+            box-shadow: 0 0 15px rgba(0, 136, 204, 0.4);
+            transform: translateY(-2px);
         }
 
-        /* --- YAN MENÜ (SIDEBAR) --- */
+        /* --- ANA TASARIM --- */
+        .main-container { display: flex; flex: 1; overflow: hidden; flex-direction: row; }
+
+        /* --- SIDEBAR --- */
         .sidebar {
-            width: 280px;
+            width: 300px;
             background: var(--sidebar-bg);
             border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            padding: 10px 0;
+            padding: 15px 0;
             overflow-y: auto;
+            z-index: 20;
         }
 
         .tool-btn {
@@ -91,140 +94,171 @@
             border: none;
             color: var(--text-dim);
             text-align: left;
-            padding: 15px 20px;
+            padding: 16px 20px;
             font-size: 11px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.2s;
+            transition: 0.3s;
             border-left: 4px solid transparent;
             width: 100%;
             text-transform: uppercase;
-            white-space: nowrap; /* Mobilde taşmayı önler */
+            white-space: nowrap;
         }
 
-        .tool-btn:hover { background: rgba(255, 255, 255, 0.03); color: #fff; border-left-color: var(--accent-red-bright); }
-        .tool-btn.active-tool { background: var(--accent-red); color: #fff; border-left-color: var(--accent-red-bright); }
+        .tool-btn:hover { background: rgba(255, 0, 0, 0.05); color: #fff; padding-left: 25px; }
+        .tool-btn.active-tool { 
+            background: linear-gradient(90deg, rgba(139, 0, 0, 0.3) 0%, transparent 100%); 
+            color: #fff; 
+            border-left-color: var(--accent-red-bright); 
+        }
 
-        /* --- İÇERİK ALANI --- */
+        /* --- TERMINAL ALANI (CONTENT) --- */
         .content {
             flex: 1;
             padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            background: radial-gradient(circle at center, #111 0%, #080808 100%);
+            gap: 12px;
+            position: relative;
+            background: #000;
             overflow: hidden;
+        }
+
+        /* Terminal GIF Arka Planı */
+        .terminal-bg-gif {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueXFvbm8zeXJueXFvbm8zeXJueXFvbm8zeXJueXFvbm8mZXA9djFfaW50ZXJuYWxfZ2lmX2J5X2lkJmN0PWc/3o7TKVUn7iM8FMEU24/giphy.gif');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.25; /* Şeffaflık ayarı */
+            z-index: 1;
+            pointer-events: none;
         }
 
         .textarea-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2px;
+            position: relative;
+            z-index: 10;
         }
 
-        .stats-label { font-size: 10px; color: #777; font-weight: 800; text-transform: uppercase; }
-        .stats-value { font-size: 18px; color: var(--accent-red-bright); font-weight: 900; }
+        .stats-label { font-size: 11px; color: #aaa; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .stats-value { font-size: 20px; color: var(--accent-red-bright); font-weight: 900; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
 
         textarea {
             flex: 1;
-            background: #020202;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: #fff;
-            padding: 15px;
+            background: rgba(0, 0, 0, 0.6) !important;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 0, 0, 0.2) !important;
+            border-radius: 10px;
+            color: var(--terminal-green);
+            padding: 20px;
             resize: none;
-            font-size: 13px;
-            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.6;
             outline: none;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 5;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
         }
 
-        /* --- BUTONLAR VE DOSYA --- */
+        /* --- KONTROLLER --- */
         .controls {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-            background: #0d0d0d;
-            padding: 15px;
-            border-radius: 8px;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(13, 13, 13, 0.9);
+            padding: 15px 20px;
+            border-radius: 10px;
             border: 1px solid var(--border-color);
+            position: relative;
+            z-index: 10;
+            gap: 15px;
         }
 
         .file-label { 
-            color: #aaa;
-            font-size: 10px; 
+            color: #fff;
+            font-size: 11px; 
             font-weight: 800; 
             cursor: pointer; 
-            text-align: center;
-            padding: 10px;
-            border: 1px dashed #333;
+            padding: 10px 15px;
+            border: 1px dashed #444;
             border-radius: 6px;
+            transition: 0.3s;
+            flex: 1;
+            text-align: center;
         }
+        .file-label:hover { border-color: var(--accent-red-bright); color: var(--accent-red-bright); }
 
-        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-group { display: flex; gap: 10px; flex: 1; }
 
         .action-btn {
+            flex: 1;
             padding: 12px;
             border-radius: 6px;
             font-weight: 800;
             cursor: pointer;
+            transition: 0.3s;
             border: none;
-            font-size: 10px;
+            font-size: 11px;
             text-transform: uppercase;
         }
 
         .btn-submit { background: #fff; color: #000; }
+        .btn-submit:hover { background: var(--accent-red-bright); color: #fff; transform: translateY(-2px); }
+
         .btn-download { background: #1a1a1a; color: #fff; border: 1px solid #333; }
+        .btn-download:hover { background: #252525; border-color: #555; }
 
-        /* --- MOBİL UYUMLULUK (BREAKPOINTS) --- */
+        /* --- MOBİL UYUMLULUK --- */
         @media (max-width: 768px) {
-            .main-container { flex-direction: column; } /* Yan yana olan yapıyı alt alta yap */
-
+            .main-container { flex-direction: column; }
+            
             .sidebar {
                 width: 100%;
                 height: auto;
-                flex-direction: row; /* Butonları yan yana diz */
-                overflow-x: auto; /* Yatay kaydırma aç */
+                flex-direction: row;
+                overflow-x: auto;
                 border-right: none;
                 border-bottom: 1px solid var(--border-color);
-                padding: 5px 0;
+                padding: 0;
+                scrollbar-width: none;
             }
+            .sidebar::-webkit-scrollbar { display: none; }
 
             .tool-btn {
-                padding: 12px 15px;
+                padding: 15px 20px;
                 border-left: none;
                 border-bottom: 3px solid transparent;
                 width: auto;
             }
-            
-            .tool-btn.active-tool {
-                border-left: none;
-                border-bottom-color: var(--accent-red-bright);
-            }
+            .tool-btn.active-tool { border-bottom-color: var(--accent-red-bright); }
 
+            .controls { flex-direction: column; }
+            .file-label, .btn-group { width: 100%; }
+            
             .logo-text { font-size: 16px; }
-            .content { padding: 15px; }
-            .stats-value { font-size: 16px; }
-            
-            .navbar { padding: 0 10px; }
+            .telegram-link span { display: none; } /* Mobilde sadece ikon kalsın yer açmak için */
+            .telegram-link { padding: 10px; }
         }
-
-        /* Yatay Kaydırma Çubuğunu Gizle (Sidebar için) */
-        .sidebar::-webkit-scrollbar { height: 0px; display: none; }
     </style>
 </head>
 <body>
 
 <nav class="navbar">
     <div class="logo-container">
-        <img src="logo-removebg-preview.png" alt="SHM" class="main-logo" onerror="this.src='https://via.placeholder.com/35/8b0000/FFFFFF?text=S'">
+        <img src="logo-removebg-preview.png" alt="SHM" class="main-logo" onerror="this.src='https://via.placeholder.com/40/8b0000/FFFFFF?text=S'">
         <div class="logo-text">Sahmaran<span>Combo</span></div>
     </div>
     
     <a href="https://t.me/TheKingOfTheGlory001" target="_blank" class="telegram-link">
-        <i class="fa-brands fa-telegram"></i>
-        <span>TELEGRAM</span>
+        <i class="fa-brands fa-telegram fa-lg"></i>
+        <span>TELEGRAM KANALI</span>
     </a>
 </nav>
 
@@ -234,33 +268,35 @@
         <button class="tool-btn" data-tool="cleanMail" onclick="selectTool(this)">USER:PASS TEMİZLE</button>
         <button class="tool-btn" data-tool="cleanUser" onclick="selectTool(this)">MAIL:PASS TEMİZLE</button>
         <button class="tool-btn" data-tool="removeCapture" onclick="selectTool(this)">CAPTURE SİLİCİ</button>
-        <button class="tool-btn" data-tool="removeDuplicates" onclick="selectTool(this)">TEKRARLARI SİL</button>
-        <button class="tool-btn" data-tool="removeEmpty" onclick="selectTool(this)">BOŞLARI SİL</button>
+        <button class="tool-btn" data-tool="removeDuplicates" onclick="selectTool(this)">TEKRARLARI TEMİZLE</button>
+        <button class="tool-btn" data-tool="removeEmpty" onclick="selectTool(this)">BOŞ SATIRLARI SİL</button>
         <button class="tool-btn" data-tool="sortAZ" onclick="selectTool(this)">A-Z SIRALA</button>
-        <button class="tool-btn" data-tool="randomize" onclick="selectTool(this)">KARIŞTIR</button>
-        <button class="tool-btn" data-tool="sepOutlook" onclick="selectTool(this)">OUTLOOK AYIRICI</button>
+        <button class="tool-btn" data-tool="randomize" onclick="selectTool(this)">LİSTEYİ KARIŞTIR</button>
+        <button class="tool-btn" data-tool="sepOutlook" onclick="selectTool(this)">OUTLOOK & HOTMAIL AYIR</button>
     </aside>
 
     <main class="content">
+        <div class="terminal-bg-gif"></div>
+
         <div class="textarea-header">
-            <span class="stats-label"><i class="fa-solid fa-terminal"></i> Terminal</span>
+            <span class="stats-label"><i class="fa-solid fa-code-branch"></i> SAHMARAN v2.5 OPERATIONAL</span>
             <div>
-                <span class="stats-label">SATIR:</span>
+                <span class="stats-label">TOTAL LINES:</span>
                 <span id="lineCount" class="stats-value">0</span>
             </div>
         </div>
 
-        <textarea id="comboInput" placeholder="Combo buraya..." oninput="updateStats()"></textarea>
+        <textarea id="comboInput" placeholder="Sürükle-bırak veya yapıştır: combo listesi bekleniyor..." oninput="updateStats()"></textarea>
 
         <div class="controls">
             <label class="file-label">
                 <input type="file" style="display:none" onchange="loadFile(event)">
-                <i class="fa-solid fa-upload"></i> DOSYA YÜKLE
+                <i class="fa-solid fa-file-import"></i> DOSYA AKTAR
             </label>
             
             <div class="btn-group">
-                <button class="action-btn btn-submit" onclick="applyAction()">Uygula</button>
-                <button class="action-btn btn-download" onclick="downloadTxt()">İndir</button>
+                <button class="action-btn btn-submit" onclick="applyAction()">İşlemi Başlat</button>
+                <button class="action-btn btn-download" onclick="downloadTxt()">Sonucu İndir</button>
             </div>
         </div>
     </main>
@@ -286,46 +322,48 @@
         if (!input.value.trim()) return;
 
         let lines = input.value.split('\n');
-
-        switch(currentTool) {
-            case "urlToUserPass":
-                lines = lines.map(l => {
-                    let p = l.split(":");
-                    return p.length >= 3 ? p[p.length-2] + ":" + p[p.length-1] : l;
-                });
-                break;
-            case "cleanMail":
-                lines = lines.filter(l => l.includes("@"));
-                break;
-            case "cleanUser":
-                lines = lines.filter(l => !l.includes("@"));
-                break;
-            case "removeCapture":
-                lines = lines.map(l => l.split("|")[0].trim());
-                break;
-            case "removeDuplicates":
-                lines = [...new Set(lines)];
-                break;
-            case "removeEmpty":
-                lines = lines.filter(l => l.trim() !== "");
-                break;
-            case "sortAZ":
-                lines = lines.sort((a, b) => a.localeCompare(b));
-                break;
-            case "randomize":
-                lines = lines.sort(() => Math.random() - 0.5);
-                break;
-            case "sepOutlook":
-                lines = lines.filter(l => /outlook|hotmail|live|msn/i.test(l));
-                break;
-        }
-        
-        input.value = lines.join('\n');
-        updateStats();
-        
         const btn = document.querySelector('.btn-submit');
-        btn.innerText = "TAMAM!";
-        setTimeout(() => btn.innerText = "UYGULA", 1500);
+        btn.innerText = "İŞLENİYOR...";
+
+        setTimeout(() => {
+            switch(currentTool) {
+                case "urlToUserPass":
+                    lines = lines.map(l => {
+                        let p = l.split(":");
+                        return p.length >= 3 ? p[p.length-2] + ":" + p[p.length-1] : l;
+                    });
+                    break;
+                case "cleanMail":
+                    lines = lines.filter(l => l.includes("@"));
+                    break;
+                case "cleanUser":
+                    lines = lines.filter(l => !l.includes("@") && l.includes(":"));
+                    break;
+                case "removeCapture":
+                    lines = lines.map(l => l.split("|")[0].trim());
+                    break;
+                case "removeDuplicates":
+                    lines = [...new Set(lines)];
+                    break;
+                case "removeEmpty":
+                    lines = lines.filter(l => l.trim() !== "");
+                    break;
+                case "sortAZ":
+                    lines = lines.sort((a, b) => a.localeCompare(b));
+                    break;
+                case "randomize":
+                    lines = lines.sort(() => Math.random() - 0.5);
+                    break;
+                case "sepOutlook":
+                    lines = lines.filter(l => /outlook|hotmail|live|msn/i.test(l));
+                    break;
+            }
+            
+            input.value = lines.join('\n');
+            updateStats();
+            btn.innerText = "BAŞARILI!";
+            setTimeout(() => btn.innerText = "İŞLEMİ BAŞLAT", 1500);
+        }, 300);
     }
 
     function loadFile(e) {
@@ -339,13 +377,26 @@
 
     function downloadTxt() {
         const content = document.getElementById("comboInput").value;
-        if(!content) return;
+        if(!content) return alert("İndirilecek veri bulunamadı!");
         const blob = new Blob([content], { type: "text/plain" });
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
-        a.download = "sahmaran_result.txt";
+        a.download = "sahmaran_output.txt";
         a.click();
     }
+
+    // Drag & Drop Desteği
+    const tx = document.getElementById("comboInput");
+    tx.addEventListener('dragover', (e) => { e.preventDefault(); tx.style.borderColor = "#ff0000"; });
+    tx.addEventListener('dragleave', () => { tx.style.borderColor = "rgba(255, 0, 0, 0.2)"; });
+    tx.addEventListener('drop', (e) => {
+        e.preventDefault();
+        tx.style.borderColor = "rgba(255, 0, 0, 0.2)";
+        const file = e.dataTransfer.files[0];
+        const reader = new FileReader();
+        reader.onload = () => { tx.value = reader.result; updateStats(); };
+        reader.readAsText(file);
+    });
 </script>
 
 </body>
