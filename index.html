@@ -7,6 +7,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
         :root {
@@ -20,7 +21,6 @@
             --terminal-green: #00ff41;
         }
 
-        /* Metin seçmeyi engelleme */
         * { 
             box-sizing: border-box; 
             margin: 0; 
@@ -32,7 +32,6 @@
             user-select: none; 
         }
 
-        /* Textarea içinde yazı yazabilmek için seçmeye izin ver */
         textarea {
             -webkit-user-select: text !important;
             -moz-user-select: text !important;
@@ -49,7 +48,6 @@
             overflow: hidden;
         }
 
-        /* NAVBAR */
         .navbar {
             height: 70px;
             background: #000;
@@ -74,10 +72,8 @@
             font-size: 12px; font-weight: 800; border: 1px solid var(--telegram-blue);
         }
 
-        /* MAIN CONTAINER */
         .main-container { display: flex; flex: 1; overflow: hidden; flex-direction: row; }
 
-        /* SIDEBAR */
         .sidebar {
             width: 300px; background: var(--sidebar-bg);
             border-right: 1px solid var(--border-color);
@@ -94,7 +90,6 @@
             background: rgba(139, 0, 0, 0.3); color: #fff; border-left-color: var(--accent-red-bright); 
         }
 
-        /* CONTENT */
         .content {
             flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 12px;
             position: relative; background: #000; overflow: hidden;
@@ -111,7 +106,7 @@
             backdrop-filter: blur(5px); border: 1px solid rgba(255, 0, 0, 0.2) !important;
             border-radius: 10px; color: var(--terminal-green); padding: 20px;
             font-size: 14px; font-family: 'JetBrains Mono', monospace;
-            position: relative; z-index: 5;
+            position: relative; z-index: 5; outline: none;
         }
 
         .controls {
@@ -125,9 +120,11 @@
         .action-btn {
             flex: 1; padding: 12px; border-radius: 6px; font-weight: 800;
             cursor: pointer; border: none; font-size: 11px; text-transform: uppercase;
+            transition: 0.3s;
         }
 
         .btn-submit { background: #fff; color: #000; }
+        .btn-submit:hover { background: var(--accent-red-bright); color: #fff; }
         .btn-download { background: #1a1a1a; color: #fff; border: 1px solid #333; }
 
         @media (max-width: 768px) {
@@ -138,7 +135,9 @@
         }
     </style>
 </head>
-<body oncontextmenu="return false;"> <nav class="navbar">
+<body>
+
+<nav class="navbar">
     <div class="logo-container">
         <img src="logo-removebg-preview.png" alt="SHM" class="main-logo" onerror="this.src='https://via.placeholder.com/40/8b0000/FFFFFF?text=S'">
         <div class="logo-text">Sahmaran<span>Combo</span></div>
@@ -163,11 +162,11 @@
 
     <main class="content">
         <div class="terminal-bg-gif"></div>
-        <div class="textarea-header">
-            <span class="stats-label"><i class="fa-solid fa-code-branch"></i> SAHMARAN COMBOUTİLS</span>
-            <span id="lineCount" class="stats-value">0</span>
+        <div class="textarea-header" style="position:relative; z-index:10; display:flex; justify-content:space-between; width:100%;">
+            <span class="stats-label" style="font-size:11px; font-weight:800; color:#aaa;">SAHMARAN COMBOUTİLS</span>
+            <span id="lineCount" class="stats-value" style="color:var(--accent-red-bright); font-weight:900;">0</span>
         </div>
-        <textarea id="comboInput" placeholder="Combo listesi bekleniyor..."></textarea>
+        <textarea id="comboInput" placeholder="Combo listesini buraya yapıştır veya dosya aktar..." oninput="updateStats()"></textarea>
         <div class="controls">
             <input type="file" id="fileInp" style="display:none" onchange="loadFile(event)">
             <button class="action-btn btn-download" onclick="document.getElementById('fileInp').click()">DOSYA AKTAR</button>
@@ -182,55 +181,130 @@
 <script>
     // --- TEMEL FONKSİYONLAR ---
     let currentTool = "urlToUserPass";
+
+    function updateStats() {
+        const text = document.getElementById("comboInput").value;
+        const lines = text.split('\n').filter(l => l.trim() !== "").length;
+        document.getElementById("lineCount").innerText = lines.toLocaleString();
+    }
+
     function selectTool(btn) {
         document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active-tool'));
         btn.classList.add('active-tool');
         currentTool = btn.getAttribute('data-tool');
     }
 
-    // (Buraya daha önceki applyAction, updateStats, loadFile fonksiyonlarını ekle...)
+    function loadFile(e) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            document.getElementById("comboInput").value = reader.result;
+            updateStats();
+        };
+        reader.readAsText(e.target.files[0]);
+    }
 
-    // --- SÜPER KORUMA SİSTEMİ ---
+    function downloadTxt() {
+        const content = document.getElementById("comboInput").value;
+        if(!content) return alert("İçerik boş!");
+        const blob = new Blob([content], { type: "text/plain" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "sahmaran_result.txt";
+        a.click();
+    }
 
-    // 1. Sağ tık engelleme (Yedek önlem)
-    document.addEventListener('contextmenu', event => event.preventDefault());
+    function applyAction() {
+        const input = document.getElementById("comboInput");
+        if (!input.value.trim()) return;
+        let lines = input.value.split('\n');
 
-    // 2. Klavye Kısayolları Engeli
+        switch(currentTool) {
+            case "urlToUserPass":
+                lines = lines.map(l => {
+                    let p = l.split(":");
+                    return p.length >= 3 ? p[p.length-2] + ":" + p[p.length-1] : l;
+                });
+                break;
+            case "cleanMail":
+                lines = lines.filter(l => l.includes("@"));
+                break;
+            case "cleanUser":
+                lines = lines.filter(l => !l.includes("@") && l.includes(":"));
+                break;
+            case "removeCapture":
+                lines = lines.map(l => l.split("|")[0].split(" | ")[0].trim());
+                break;
+            case "removeDuplicates":
+                lines = [...new Set(lines)];
+                break;
+            case "removeEmpty":
+                lines = lines.filter(l => l.trim() !== "");
+                break;
+            case "sortAZ":
+                lines.sort();
+                break;
+            case "randomize":
+                lines.sort(() => Math.random() - 0.5);
+                break;
+            case "sepOutlook":
+                lines = lines.filter(l => /outlook|hotmail|live|msn/i.test(l));
+                break;
+        }
+        input.value = lines.join('\n');
+        updateStats();
+        
+        const btn = document.querySelector('.btn-submit');
+        btn.innerText = "TAMAMLANDI";
+        setTimeout(() => btn.innerText = "BAŞLAT", 1500);
+    }
+
+    // --- SÜPER KORUMA VE UYARI SİSTEMİ ---
+    function sahmaranUyari(mesaj, baslik = "HOP!") {
+        Swal.fire({
+            title: baslik,
+            text: mesaj,
+            icon: 'error',
+            background: '#0d0d0d',
+            color: '#ff0000',
+            confirmButtonColor: '#8b0000',
+            confirmButtonText: 'Tamam abi, özür dilerim'
+        });
+    }
+
+    document.addEventListener('contextmenu', event => {
+        event.preventDefault();
+        sahmaranUyari("Sağ tıkla kod çalmaya çalışmak mı? Sahmaran seni izliyor...", "YEMEZLER!");
+    });
+
     document.onkeydown = function(e) {
-        // F12 engeli
-        if(e.keyCode == 123) return false;
-        // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C engeli
-        if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) return false;
-        // Ctrl+U (Kaynak Kodu) engeli
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-        // Ctrl+S (Kaydet) engeli
-        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
-        // Ctrl+A (Hepsini seç) engeli (Textarea dışında)
-        if(e.ctrlKey && e.keyCode == 'A'.charCodeAt(0) && e.target.tagName !== 'TEXTAREA') return false;
+        if(e.keyCode == 123) {
+            sahmaranUyari("F12'ye basınca hacker mı oldun şimdi?", "DUR YOLCU!");
+            return false;
+        }
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+            sahmaranUyari("Kodlarımızı mı merak ettin? Çok zorlama, kafan karışır.", "KAYNAK KAPALI!");
+            return false;
+        }
+        if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) {
+            sahmaranUyari("Geliştirici araçlarını kapat dostum, burada sana ekmek çıkmaz.", "GİRİŞ YASAK!");
+            return false;
+        }
+        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) {
+            sahmaranUyari("Sayfayı kaydedip ne yapacaksın? Çerçeveletip asacak mısın?", "KOLEKSİYONCU MUYUZ?");
+            return false;
+        }
     };
 
-    // 3. Debugger Loop (F12 açılırsa tarayıcıyı kilitler)
     setInterval(function() {
-        checkDebugger();
-    }, 100);
-
-    function checkDebugger() {
         const start = new Date();
         debugger;
         const end = new Date();
         if (end - start > 100) {
-            document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top:20%;'>GÜVENLİK İHLALİ TESPİT EDİLDİ!</h1>";
+            console.clear();
+            console.log("%cDUR!", "color:red; font-size:40px;");
         }
-    }
-
-    // 4. Console Temizleme (Hata mesajlarını görmemeleri için)
-    setInterval(() => {
-        console.clear();
-        console.log("%cDUR!", "color: red; font-size: 50px; font-weight: bold;");
-        console.log("%cBu alan kod hırsızlığına karşı korunmaktadır.", "color: gray; font-size: 20px;");
     }, 1000);
 
-    // 5. Görselleri Sürüklemeyi Engelleme
     document.querySelectorAll('img').forEach(img => {
         img.onmousedown = (e) => e.preventDefault();
     });
