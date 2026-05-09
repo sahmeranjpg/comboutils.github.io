@@ -15,112 +15,63 @@
             --sidebar-bg: #0d0d0d;
             --accent-red: #8b0000; 
             --accent-red-bright: #ff0000;
-            --text-light: #e0e0e0;
-            --border-color: #1a1a1a;
-            --telegram-blue: #0088cc;
             --terminal-green: #00ff41;
+            --border-color: #1a1a1a;
         }
 
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Inter', sans-serif; 
-            -webkit-user-select: none; 
-            -moz-user-select: none; 
-            -ms-user-select: none; 
-            user-select: none; 
-        }
-
-        textarea {
-            -webkit-user-select: text !important;
-            -moz-user-select: text !important;
-            -ms-user-select: text !important;
-            user-select: text !important;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-user-select: none; user-select: none; }
+        textarea { -webkit-user-select: text !important; user-select: text !important; }
 
         body {
-            height: 100vh;
-            background-color: var(--bg-color);
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            height: 100vh; background-color: var(--bg-color); color: #fff;
+            display: flex; flex-direction: column; overflow: hidden;
         }
 
         .navbar {
-            height: 70px;
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            border-bottom: 2px solid var(--accent-red);
-            z-index: 100;
+            height: 70px; background: #000; display: flex; align-items: center;
+            justify-content: space-between; padding: 0 20px; border-bottom: 2px solid var(--accent-red); z-index: 100;
         }
 
-        .logo-container { display: flex; align-items: center; gap: 12px; }
-        .main-logo { width: 40px; height: 40px; }
         .logo-text { font-weight: 800; font-size: 20px; text-transform: uppercase; }
         .logo-text span { color: var(--accent-red-bright); }
 
-        .telegram-link {
-            display: flex; align-items: center; gap: 10px;
-            background: rgba(0, 136, 204, 0.1);
-            color: var(--telegram-blue);
-            text-decoration: none; padding: 10px 16px; border-radius: 8px;
-            font-size: 12px; font-weight: 800; border: 1px solid var(--telegram-blue);
-        }
-
-        .main-container { display: flex; flex: 1; overflow: hidden; flex-direction: row; }
+        .main-container { display: flex; flex: 1; overflow: hidden; }
 
         .sidebar {
-            width: 300px; background: var(--sidebar-bg);
-            border-right: 1px solid var(--border-color);
-            display: flex; flex-direction: column; padding: 15px 0; overflow-y: auto;
+            width: 300px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color);
+            display: flex; flex-direction: column; padding: 10px 0; overflow-y: auto;
         }
 
         .tool-btn {
-            background: transparent; border: none; color: #777;
-            text-align: left; padding: 16px 20px; font-size: 11px; font-weight: 700;
-            cursor: pointer; width: 100%; text-transform: uppercase; border-left: 4px solid transparent;
+            background: transparent; border: none; color: #777; text-align: left;
+            padding: 14px 20px; font-size: 11px; font-weight: 700; cursor: pointer;
+            text-transform: uppercase; border-left: 4px solid transparent; transition: 0.2s;
         }
 
-        .tool-btn.active-tool { 
-            background: rgba(139, 0, 0, 0.3); color: #fff; border-left-color: var(--accent-red-bright); 
-        }
+        .tool-btn.active-tool { background: rgba(139, 0, 0, 0.3); color: #fff; border-left-color: var(--accent-red-bright); }
 
-        .content {
-            flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 12px;
-            position: relative; background: #000; overflow: hidden;
-        }
+        .content { flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 10px; position: relative; background: #000; }
 
         .terminal-bg-gif {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('https://media1.tenor.com/m/WzEMvflT360AAAAC/atat%C3%BCrk-t%C3%BCrkiye.gif');
-            background-size: cover; background-position: center; opacity: 0.2; z-index: 1; pointer-events: none;
+            background-size: cover; background-position: center; opacity: 0.15; z-index: 1; pointer-events: none;
         }
 
         textarea {
-            flex: 1; background: rgba(0, 0, 0, 0.6) !important;
-            backdrop-filter: blur(5px); border: 1px solid rgba(255, 0, 0, 0.2) !important;
-            border-radius: 10px; color: var(--terminal-green); padding: 20px;
-            font-size: 14px; font-family: 'JetBrains Mono', monospace;
-            position: relative; z-index: 5; outline: none;
+            flex: 1; background: rgba(0, 0, 0, 0.7) !important; backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 0, 0, 0.3) !important; border-radius: 8px;
+            color: var(--terminal-green); padding: 15px; font-family: 'JetBrains Mono', monospace;
+            font-size: 13px; position: relative; z-index: 5; outline: none; resize: none;
         }
 
         .controls {
-            display: flex; justify-content: space-between; align-items: center;
-            background: #0d0d0d; padding: 15px 20px; border-radius: 10px;
-            z-index: 10; gap: 15px;
+            display: flex; gap: 15px; background: #0d0d0d; padding: 15px; border-radius: 8px; z-index: 10;
         }
 
-        .btn-group { display: flex; gap: 10px; flex: 1; }
-
         .action-btn {
-            flex: 1; padding: 12px; border-radius: 6px; font-weight: 800;
-            cursor: pointer; border: none; font-size: 11px; text-transform: uppercase;
-            transition: 0.3s;
+            flex: 1; padding: 12px; border-radius: 5px; font-weight: 800; cursor: pointer;
+            border: none; font-size: 11px; text-transform: uppercase; transition: 0.3s;
         }
 
         .btn-submit { background: #fff; color: #000; }
@@ -129,8 +80,8 @@
 
         @media (max-width: 768px) {
             .main-container { flex-direction: column; }
-            .sidebar { width: 100%; flex-direction: row; overflow-x: auto; }
-            .tool-btn { white-space: nowrap; }
+            .sidebar { width: 100%; height: auto; flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--border-color); }
+            .tool-btn { padding: 15px; white-space: nowrap; }
             .controls { flex-direction: column; }
         }
     </style>
@@ -138,39 +89,33 @@
 <body>
 
 <nav class="navbar">
-    <div class="logo-container">
-        <img src="logo-removebg-preview.png" alt="SHM" class="main-logo" onerror="this.src='https://via.placeholder.com/40/8b0000/FFFFFF?text=S'">
-        <div class="logo-text">Sahmaran<span>Combo</span></div>
-    </div>
-    <a href="https://t.me/TheKingOfTheGlory001" target="_blank" class="telegram-link">
-        <i class="fa-brands fa-telegram"></i> <span>TELEGRAM</span>
-    </a>
+    <div class="logo-text">Sahmaran<span>Combo</span></div>
+    <a href="https://t.me/TheKingOfTheGlory001" target="_blank" style="color:#0088cc; text-decoration:none; font-weight:800; font-size:12px;">TELEGRAM</a>
 </nav>
 
 <div class="main-container">
     <aside class="sidebar">
-        <button class="tool-btn active-tool" data-tool="urlToUserPass" onclick="selectTool(this)">URL:USER:PASS → USER:PASS</button>
-        <button class="tool-btn" data-tool="cleanMail" onclick="selectTool(this)">USER:PASS TEMİZLE</button>
-        <button class="tool-btn" data-tool="cleanUser" onclick="selectTool(this)">MAIL:PASS TEMİZLE</button>
+        <button class="tool-btn active-tool" data-tool="urlToUserPass" onclick="selectTool(this)">URL:USER:PASS -> USER:PASS</button>
+        <button class="tool-btn" data-tool="cleanMail" onclick="selectTool(this)">SADECE MAIL:PASS</button>
+        <button class="tool-btn" data-tool="cleanUser" onclick="selectTool(this)">SADECE USER:PASS</button>
         <button class="tool-btn" data-tool="removeCapture" onclick="selectTool(this)">CAPTURE SİLİCİ</button>
-        <button class="tool-btn" data-tool="removeDuplicates" onclick="selectTool(this)">TEKRARLARI TEMİZLE</button>
+        <button class="tool-btn" data-tool="removeDuplicates" onclick="selectTool(this)">TEKRARLARI SİL</button>
         <button class="tool-btn" data-tool="removeEmpty" onclick="selectTool(this)">BOŞ SATIRLARI SİL</button>
         <button class="tool-btn" data-tool="sortAZ" onclick="selectTool(this)">A-Z SIRALA</button>
-        <button class="tool-btn" data-tool="randomize" onclick="selectTool(this)">LİSTEYİ KARIŞTIR</button>
-        <button class="tool-btn" data-tool="sepOutlook" onclick="selectTool(this)">OUTLOOK & HOTMAIL AYIR</button>
+        <button class="tool-btn" data-tool="sepOutlook" onclick="selectTool(this)">HOTMAIL/OUTLOOK AYIR</button>
     </aside>
 
     <main class="content">
         <div class="terminal-bg-gif"></div>
-        <div class="textarea-header" style="position:relative; z-index:10; display:flex; justify-content:space-between; width:100%;">
-            <span class="stats-label" style="font-size:11px; font-weight:800; color:#aaa;">SAHMARAN COMBOUTİLS</span>
-            <span id="lineCount" class="stats-value" style="color:var(--accent-red-bright); font-weight:900;">0</span>
+        <div style="display:flex; justify-content:space-between; position:relative; z-index:10; font-size:11px; font-weight:800;">
+            <span style="color:#aaa;">SAHMARAN TERMINAL</span>
+            <span style="color:red;">SATIR: <span id="lineCount">0</span></span>
         </div>
-        <textarea id="comboInput" placeholder="Combo listesini buraya yapıştır veya dosya aktar..." oninput="updateStats()"></textarea>
+        <textarea id="comboInput" placeholder="Comboyu yapıştır..." oninput="updateStats()"></textarea>
         <div class="controls">
             <input type="file" id="fileInp" style="display:none" onchange="loadFile(event)">
             <button class="action-btn btn-download" onclick="document.getElementById('fileInp').click()">DOSYA AKTAR</button>
-            <div class="btn-group">
+            <div class="btn-group" style="display:flex; gap:10px; flex:1;">
                 <button class="action-btn btn-submit" onclick="applyAction()">BAŞLAT</button>
                 <button class="action-btn btn-download" onclick="downloadTxt()">İNDİR</button>
             </div>
@@ -179,13 +124,12 @@
 </div>
 
 <script>
-    // --- TEMEL FONKSİYONLAR ---
     let currentTool = "urlToUserPass";
 
     function updateStats() {
-        const text = document.getElementById("comboInput").value;
-        const lines = text.split('\n').filter(l => l.trim() !== "").length;
-        document.getElementById("lineCount").innerText = lines.toLocaleString();
+        const val = document.getElementById("comboInput").value;
+        const lines = val.split('\n').filter(l => l.trim() !== "").length;
+        document.getElementById("lineCount").innerText = lines;
     }
 
     function selectTool(btn) {
@@ -196,119 +140,98 @@
 
     function loadFile(e) {
         const reader = new FileReader();
-        reader.onload = () => {
-            document.getElementById("comboInput").value = reader.result;
-            updateStats();
-        };
+        reader.onload = () => { document.getElementById("comboInput").value = reader.result; updateStats(); };
         reader.readAsText(e.target.files[0]);
     }
 
     function downloadTxt() {
         const content = document.getElementById("comboInput").value;
-        if(!content) return alert("İçerik boş!");
+        if(!content) return;
         const blob = new Blob([content], { type: "text/plain" });
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
-        a.download = "sahmaran_result.txt";
+        a.download = "sahmaran_fixed.txt";
         a.click();
     }
 
     function applyAction() {
         const input = document.getElementById("comboInput");
-        if (!input.value.trim()) return;
-        let lines = input.value.split('\n');
+        let lines = input.value.split('\n').filter(l => l.trim() !== "");
+        if (lines.length === 0) return;
 
-        switch(currentTool) {
-            case "urlToUserPass":
-                lines = lines.map(l => {
-                    let p = l.split(":");
-                    return p.length >= 3 ? p[p.length-2] + ":" + p[p.length-1] : l;
-                });
-                break;
-            case "cleanMail":
-                lines = lines.filter(l => l.includes("@"));
-                break;
-            case "cleanUser":
-                lines = lines.filter(l => !l.includes("@") && l.includes(":"));
-                break;
-            case "removeCapture":
-                lines = lines.map(l => l.split("|")[0].split(" | ")[0].trim());
-                break;
-            case "removeDuplicates":
-                lines = [...new Set(lines)];
-                break;
-            case "removeEmpty":
-                lines = lines.filter(l => l.trim() !== "");
-                break;
-            case "sortAZ":
-                lines.sort();
-                break;
-            case "randomize":
-                lines.sort(() => Math.random() - 0.5);
-                break;
-            case "sepOutlook":
-                lines = lines.filter(l => /outlook|hotmail|live|msn/i.test(l));
-                break;
-        }
-        input.value = lines.join('\n');
+        let result = [];
+
+        lines.forEach(line => {
+            let cleanLine = line.trim();
+            
+            switch(currentTool) {
+                case "urlToUserPass":
+                    // http://site.com:user:pass -> user:pass mantığı
+                    let parts = cleanLine.split(':');
+                    if (parts.length >= 3) {
+                        result.push(parts[parts.length-2] + ":" + parts[parts.length-1]);
+                    } else {
+                        result.push(cleanLine);
+                    }
+                    break;
+
+                case "cleanMail":
+                    if (cleanLine.includes("@") && cleanLine.includes(":")) result.push(cleanLine);
+                    break;
+
+                case "cleanUser":
+                    if (!cleanLine.includes("@") && cleanLine.includes(":")) result.push(cleanLine);
+                    break;
+
+                case "removeCapture":
+                    // Hem | hem de boşluklu | ayıklama
+                    let noCap = cleanLine.split('|')[0].split(' |')[0].trim();
+                    // Eğer capture : sonrasındaysa (mail:pass:capture)
+                    let subParts = noCap.split(':');
+                    if(subParts.length > 2) {
+                        result.push(subParts[0] + ":" + subParts[1]);
+                    } else {
+                        result.push(noCap);
+                    }
+                    break;
+
+                case "removeDuplicates":
+                    // Bu işlem döngü dışında yapılacak
+                    result.push(cleanLine);
+                    break;
+
+                case "sepOutlook":
+                    if (/@(outlook|hotmail|live|msn)/i.test(cleanLine)) result.push(cleanLine);
+                    break;
+
+                default:
+                    result.push(cleanLine);
+            }
+        });
+
+        if (currentTool === "removeDuplicates") result = [...new Set(result)];
+        if (currentTool === "sortAZ") result.sort();
+        if (currentTool === "removeEmpty") result = result.filter(l => l.length > 0);
+
+        input.value = result.join('\n');
         updateStats();
         
         const btn = document.querySelector('.btn-submit');
-        btn.innerText = "TAMAMLANDI";
-        setTimeout(() => btn.innerText = "BAŞLAT", 1500);
+        btn.innerText = "BAŞARILI!";
+        setTimeout(() => btn.innerText = "BAŞLAT", 1000);
     }
 
-    // --- SÜPER KORUMA VE UYARI SİSTEMİ ---
-    function sahmaranUyari(mesaj, baslik = "HOP!") {
-        Swal.fire({
-            title: baslik,
-            text: mesaj,
-            icon: 'error',
-            background: '#0d0d0d',
-            color: '#ff0000',
-            confirmButtonColor: '#8b0000',
-            confirmButtonText: 'Tamam abi, özür dilerim'
-        });
-    }
-
-    document.addEventListener('contextmenu', event => {
-        event.preventDefault();
-        sahmaranUyari("Sağ tıkla kod çalmaya çalışmak mı? Sahmaran seni izliyor...", "YEMEZLER!");
+    // --- KORUMALAR ---
+    document.addEventListener('contextmenu', e => {
+        e.preventDefault();
+        Swal.fire({title:'HOP!', text:'Sahmaran Kodlarını Çalamazsın!', icon:'error', background:'#000', color:'#ff0000'});
     });
 
-    document.onkeydown = function(e) {
-        if(e.keyCode == 123) {
-            sahmaranUyari("F12'ye basınca hacker mı oldun şimdi?", "DUR YOLCU!");
-            return false;
-        }
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-            sahmaranUyari("Kodlarımızı mı merak ettin? Çok zorlama, kafan karışır.", "KAYNAK KAPALI!");
-            return false;
-        }
-        if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) {
-            sahmaranUyari("Geliştirici araçlarını kapat dostum, burada sana ekmek çıkmaz.", "GİRİŞ YASAK!");
-            return false;
-        }
-        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) {
-            sahmaranUyari("Sayfayı kaydedip ne yapacaksın? Çerçeveletip asacak mısın?", "KOLEKSİYONCU MUYUZ?");
+    document.onkeydown = (e) => {
+        if(e.keyCode == 123 || (e.ctrlKey && (e.keyCode == 85 || e.keyCode == 73))) {
             return false;
         }
     };
-
-    setInterval(function() {
-        const start = new Date();
-        debugger;
-        const end = new Date();
-        if (end - start > 100) {
-            console.clear();
-            console.log("%cDUR!", "color:red; font-size:40px;");
-        }
-    }, 1000);
-
-    document.querySelectorAll('img').forEach(img => {
-        img.onmousedown = (e) => e.preventDefault();
-    });
 </script>
-
 </body>
 </html>
