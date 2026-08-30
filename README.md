@@ -32,7 +32,7 @@
 <!-- ZİYARETÇİ SAYACI -->
 
 <p align="center">
-  <a href="https://github.com/Sahmeranorg">
+  <a href="https://github.com/sahmeranjpg">
     <img src="https://visitor-badge.laobi.icu/badge?page_id=Sahmeranorg&left_text=Ziyaret%C3%A7i%20Say%C4%B1s%C4%B1" alt="Ziyaretçi Sayısı">
   </a>
 </p>
